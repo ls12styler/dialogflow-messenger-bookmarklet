@@ -6,7 +6,7 @@ The injection is done purely by manipulating the HTML in the browser. No remote 
 
 # Setup
 
-1. Open and copy the contents of inject.js
+1. Open and copy the contents of [inject.js](./inject.js)
 1. In the browser, right click on the bookmark bar
 1. Select the "Add page" option
 1. Give the bookmark a name (e.g "Inject Chatbot")

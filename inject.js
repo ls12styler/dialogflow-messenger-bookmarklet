@@ -1,6 +1,6 @@
 javascript:(() => {
   const layout = '<div id="container" class="w-full min-h-screen text-black">'+
-    '<div class="relative flex min-h-screen max-h-screen flex-col justify-center bg-gray-50 py-6 sm:py-12">'+
+    '<div class="relative flex min-h-screen max-h-content flex-col justify-center bg-gray-50 py-6 sm:py-12">'+
       '<div class="relative bg-white px-6 pb-8 pt-10 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10">'+
         '<div class="mx-auto max-w-md">'+
           '<h1 class="text-2xl font-bold">Dialogflow CX Chatbot Injection</h1>'+
@@ -43,6 +43,47 @@ javascript:(() => {
       '</div>'+
     '</div>'+
   '</div>';
+
+  const loadingCss = 'svg {'+
+    'animation: 2s linear infinite svg-animation;'+
+    'max-width: 100px;'+
+    'margin: auto;'+
+  '}'+
+  '@keyframes svg-animation {'+
+    '0% {'+
+      'transform: rotateZ(0deg);'+
+    '}'+
+    '100% {'+
+      'transform: rotateZ(360deg)'+
+    '}'+
+  '}'+
+  'circle {'+
+    'animation: 1.4s ease-in-out infinite both circle-animation;'+
+    'display: block;'+
+    'fill: transparent;'+
+    'stroke: #2f3d4c;'+
+    'stroke-linecap: round;'+
+    'stroke-dasharray: 283;'+
+    'stroke-dashoffset: 280;'+
+    'stroke-width: 10px;'+
+    'transform-origin: 50% 50%;'+
+  '}'+
+  '@keyframes circle-animation {'+
+    '0%,'+
+    '25% {'+
+      'stroke-dashoffset: 280;'+
+      'transform: rotate(0);'+
+    '}'+
+    '50%,'+
+    '75% {'+
+      'stroke-dashoffset: 75;'+
+      'transform: rotate(45deg);'+
+    '}'+
+    '100% {'+
+      'stroke-dashoffset: 280;'+
+      'transform: rotate(360deg);'+
+    '}'+
+  '}';
 
   const injectBot = (projectId, agentId, languageCode, chatTitle, stylea) => {
     console.log({projectId, agentId, languageCode, chatTitle, stylea});
@@ -89,18 +130,26 @@ javascript:(() => {
         lang.value.trim(),
         title.value.trim(),
         style.innerText.trim()
-      );
-      /* Remove the overlay */
-      document.getElementById(ifr.id).remove();
-    };
-    /* Append the new DOM content to the iframe */
-    ifr.contentDocument.body.appendChild(doc.body.firstChild);
+        );
+        /* Remove the overlay */
+        document.getElementById(ifr.id).remove();
+      };
 
-    /* Load Tailwind CSS */
-    const tw = ifr.contentDocument.createElement("script");
-    tw.setAttribute("onload", (() => {
-      /* Re-render?! */
-      ifr.contentDocument.body.appendChild(ifr.contentDocument.createElement("p"));
+      const loading = '<div id="loadingIcon" style="width: 100%; height:100%; text-align: center;"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="45"/></svg></div>';
+      const loadingDom = new DOMParser().parseFromString(loading, "text/html");
+      /* Append the new DOM content to the iframe */
+      const loadingStyle = ifr.contentDocument.createElement("style");
+      loadingStyle.innerText = loadingCss;
+      ifr.contentDocument.head.appendChild(loadingStyle);
+      ifr.contentDocument.body.appendChild(loadingDom.body.firstChild);
+
+      /* Load Tailwind CSS */
+      const tw = ifr.contentDocument.createElement("script");
+      tw.setAttribute("onload", (() => {
+        setTimeout(() => {
+          ifr.contentDocument.body.appendChild(doc.body.firstChild);
+          ifr.contentDocument.getElementById("loadingIcon").remove();
+        }, 500);
     })());
 
     tw.setAttribute("src", "https://cdn.tailwindcss.com");

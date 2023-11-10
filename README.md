@@ -22,12 +22,14 @@ The injection is done purely by manipulating the HTML in the browser. No remote 
     * In the "Manage" section, select "Integrations"
     * Under "Text Based", find "Dialogflow Messenger" and click "Connect"
     * Extract the values of the "project-id", "agent-id", "language-code" and "chat-title" attributes in the code example
-    * Paste each value into each respective input prompt
+    * Paste each value into each respective input
+1. Add any styling you'd like the bot to have (you can see what styles can be applied [here](https://cloud.google.com/dialogflow/cx/docs/concept/integration/dialogflow-messenger#css-customize-general))
+1. When finished with the configuration, click "Go!"
 1. The Chatbot should appear in the bottom right
 
 # Help! It's not working!
 
-This is most likely because the website doesn't allow external content to be loaded, meaning this menthid will not work. You can verify by checking the JavaScript console for an error. (ctrl/cmd + I, then select "Console")
+This is most likely because the website doesn't allow external content to be loaded, meaning this menthod will not work. The bookmarklet should present you with a warning if this is the case. You can verify by checking the JavaScript console for an error. (ctrl/cmd + I, then select "Console"). Unfortunately, you will need to use another method.
 
 # Remove Chatbot
 

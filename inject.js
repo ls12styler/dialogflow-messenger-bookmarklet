@@ -12,6 +12,10 @@ javascript:(() => {
                 '<input id="pid" class="w-2/3 rounded border p-2 text-gray-600" placeholder="my-genai-project" />'+
               '</div>'+
               '<div class="flex items-center justify-center align-middle">'+
+                '<label class="w-1/3 pr-2 text-right text-gray-600 font-bold">Location:</label>'+
+                '<input id="loc" class="w-2/3 rounded border p-2 text-gray-600" placeholder="europe-west1" />'+
+              '</div>'+
+              '<div class="flex items-center justify-center align-middle">'+
                 '<label class="w-1/3 pr-2 text-right text-gray-600 font-bold">Agent ID:</label>'+
                 '<input id="aid" class="w-2/3 rounded border p-2 text-gray-600" placeholder="s0m3-uuid" />'+
               '</div>'+
@@ -86,9 +90,10 @@ javascript:(() => {
   '}';
 
   const injectBot = (projectId, agentId, languageCode, chatTitle, stylea) => {
-    console.log({projectId, agentId, languageCode, chatTitle, stylea});
+    console.log({projectId, location, agentId, languageCode, chatTitle, stylea});
     const messenger = document.createElement("df-messenger");
     messenger.setAttribute("project-id", projectId);
+    messenger.setAttribute("location", location);
     messenger.setAttribute("agent-id", agentId);
     messenger.setAttribute("language-code", languageCode);
     const bubble = document.createElement("df-messenger-chat-bubble");
@@ -119,6 +124,7 @@ javascript:(() => {
     /* Get form element references */
     const btn = doc.getElementById("go");
     const pId = doc.getElementById("pid");
+    const loc = doc.getElementById("loc");
     const aId = doc.getElementById("aid");
     const lang = doc.getElementById("lang");
     const title = doc.getElementById("title");
@@ -130,26 +136,26 @@ javascript:(() => {
         lang.value.trim(),
         title.value.trim(),
         style.innerText.trim()
-        );
-        /* Remove the overlay */
-        document.getElementById(ifr.id).remove();
-      };
+      );
+      /* Remove the overlay */
+      document.getElementById(ifr.id).remove();
+    };
 
-      const loading = '<div id="loadingIcon" style="width: 100%; height:100%; text-align: center;"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="45"/></svg></div>';
-      const loadingDom = new DOMParser().parseFromString(loading, "text/html");
-      /* Append the new DOM content to the iframe */
-      const loadingStyle = ifr.contentDocument.createElement("style");
-      loadingStyle.innerText = loadingCss;
-      ifr.contentDocument.head.appendChild(loadingStyle);
-      ifr.contentDocument.body.appendChild(loadingDom.body.firstChild);
+    const loading = '<div id="loadingIcon" style="width: 100%; height:100%; text-align: center;"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="45"/></svg></div>';
+    const loadingDom = new DOMParser().parseFromString(loading, "text/html");
+    /* Append the new DOM content to the iframe */
+    const loadingStyle = ifr.contentDocument.createElement("style");
+    loadingStyle.innerText = loadingCss;
+    ifr.contentDocument.head.appendChild(loadingStyle);
+    ifr.contentDocument.body.appendChild(loadingDom.body.firstChild);
 
-      /* Load Tailwind CSS */
-      const tw = ifr.contentDocument.createElement("script");
-      tw.setAttribute("onload", (() => {
-        setTimeout(() => {
-          ifr.contentDocument.body.appendChild(doc.body.firstChild);
-          ifr.contentDocument.getElementById("loadingIcon").remove();
-        }, 500);
+    /* Load Tailwind CSS */
+    const tw = ifr.contentDocument.createElement("script");
+    tw.setAttribute("onload", (() => {
+      setTimeout(() => {
+        ifr.contentDocument.body.appendChild(doc.body.firstChild);
+        ifr.contentDocument.getElementById("loadingIcon").remove();
+      }, 500);
     })());
 
     tw.setAttribute("src", "https://cdn.tailwindcss.com");

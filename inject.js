@@ -13,7 +13,7 @@ javascript:(() => {
               '</div>'+
               '<div class="flex items-center justify-center align-middle">'+
                 '<label class="w-1/3 pr-2 text-right text-gray-600 font-bold">Location:</label>'+
-                '<input id="loc" class="w-2/3 rounded border p-2 text-gray-600" placeholder="europe-west1" />'+
+                '<input id="loc" class="w-2/3 rounded border p-2 text-gray-600" placeholder="(Optional)" />'+
               '</div>'+
               '<div class="flex items-center justify-center align-middle">'+
                 '<label class="w-1/3 pr-2 text-right text-gray-600 font-bold">Agent ID:</label>'+
@@ -89,11 +89,13 @@ javascript:(() => {
     '}'+
   '}';
 
-  const injectBot = (projectId, agentId, languageCode, chatTitle, stylea) => {
+  const injectBot = (projectId, location, agentId, languageCode, chatTitle, stylea) => {
     console.log({projectId, location, agentId, languageCode, chatTitle, stylea});
     const messenger = document.createElement("df-messenger");
     messenger.setAttribute("project-id", projectId);
-    messenger.setAttribute("location", location);
+    if (location) {
+      messenger.setAttribute("location", location);
+    }
     messenger.setAttribute("agent-id", agentId);
     messenger.setAttribute("language-code", languageCode);
     const bubble = document.createElement("df-messenger-chat-bubble");
@@ -132,6 +134,7 @@ javascript:(() => {
     btn.onclick = () => {
       injectBot(
         pId.value.trim(),
+        loc.value.trim(),
         aId.value.trim(),
         lang.value.trim(),
         title.value.trim(),

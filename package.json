@@ -1,0 +1,12 @@
+{
+  "name": "vertex-ai-widgets",
+  "version": "1.0.0",
+  "description": "This repository provides some JavaScript that can be used to create a Bookmarklet to inject a Dialogflow Chatbot into the current webpage, if security policies allow.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

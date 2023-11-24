@@ -1,21 +1,26 @@
-# Dialogflow Chatbot Bookmarklet
+# Vertex AI Widgets
 
-This repository provides some JavaScript that can be used to create a Bookmarklet to inject a Dialogflow Chatbot into the current webpage, if security policies allow.
+This repository aims to provide a suite of javascript bookmarklets that can be used to deploy a Vertex AI widget into the current webpage, if security policies allow.
 
 The injection is done purely by manipulating the HTML in the browser. No remote services are affected by using this bookmarklet.
 
-# Setup
+## Available Bookmarklets
 
-1. Open and copy the contents of [inject.js](./inject.js)
+- [Dialogflow Messenger](./public/js/dialogflowmessenger.js)
+- [Vertex Search](./public/js/searchwidget.js)
+
+## Installation
+
+1. Open and copy the contents of respective widget you'd like to try from above
 1. In the browser, right click on the bookmark bar
 1. Select the "Add page" option
-1. Give the bookmark a name (e.g "Inject Chatbot")
-1. In the URL, paste the contents of the inject.js file
+1. Give the bookmark a name (e.g "Inject Widget")
+1. In the URL, paste the contents of the widget file
 1. Done!
 
-# Usage
+## Usage
 
-1. Open the website you want to inject the Chatbot into
+1. Open the website you want to inject the widget into
 1. Click the bookmarklet, you will be prompted for some details
 1. Fill in the required details, which can be found by performing the following:
     * Visiting the [Dialogflow CX portal](https://dialogflow.cloud.google.com/cx/projects) and selecting your project and agent
@@ -27,10 +32,18 @@ The injection is done purely by manipulating the HTML in the browser. No remote 
 1. When finished with the configuration, click "Go!"
 1. The Chatbot should appear in the bottom right
 
-# Help! It's not working!
+# Dialogflow Chatbot Widget
+
+1. Instructions here specific to Dialogflow Messenger
+
+## Vertex Search Widget
+
+1. Instructions here specific to Vertex Search
+
+## Help! It's not working!
 
 This is most likely because the website doesn't allow external content to be loaded, meaning this menthod will not work. The bookmarklet should present you with a warning if this is the case. You can verify by checking the JavaScript console for an error. (ctrl/cmd + I, then select "Console"). Unfortunately, you will need to use another method.
 
-# Remove Chatbot
+## Remove Widget
 
 Simply reload the page.

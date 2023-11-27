@@ -15,6 +15,20 @@ javascript:(() => {
                 '<label class="w-1/3 pr-2 text-right text-gray-600 font-bold">Location:</label>'+
                 '<input id="loc" class="w-2/3 rounded border p-2 text-gray-600" value="eu" />'+
               '</div>'+
+              '<h2 class="text-xl font-semibold">Search Button Styling</h2>'+
+              '<p>You can customise the "Search" button styling using the area below using normal CSS.</p>'+
+              '<div class="w-full rounded border p-2 font-mono text-sm text-gray-600">'+
+                '<div>#searchTrigger {</div>'+
+                `<div id="style" class="w-full resize-none px-4 py-1 focus:outline-none bg-slate-50 resize-y h-fit" contenteditable="true">
+position: absolute;<br />
+top: 5px;<br />
+right: 5px;<br />
+padding: 10px;<br />
+font-weight:bold;<br />
+text-transform: uppercase;<br />
+font-size:20px;</div>`+
+                '<div>}</div>'+
+              '</div>'+
               '<button id="go" class="rounded-full border bg-sky-200 px-10 py-2 font-bold text-sky-500 hover:bg-sky-600 hover:text-sky-200">Go!</button>'+
               '<div class="pt-2 text-base font-semibold leading-7">'+
                 '<p class="text-gray-900">'+
@@ -70,7 +84,7 @@ javascript:(() => {
     '}'+
   '}';
 
-  const injectBot = (configId, location) => {
+  const injectBot = (configId, location, buttonStyle) => {
     console.log({configId, location});
     const widget = document.createElement("gen-search-widget");
     widget.setAttribute("configId", configId);
@@ -82,9 +96,8 @@ javascript:(() => {
     const button = document.createElement("button");
     button.innerHTML = "Search";
     button.id = "searchWidgetTrigger";
-    button.style = "padding: 10px; position: absolute; top: 5px; right: 5px;font-weight:bold;text-transform: uppercase;font-size:20px;";
+    button.style = buttonStyle;
     [
-      //style,
       widget,
       button
     ].map(e => document.body.appendChild(e));
@@ -106,11 +119,12 @@ javascript:(() => {
     const btn = doc.getElementById("go");
     const pId = doc.getElementById("cid");
     const loc = doc.getElementById("loc");
-    const aId = doc.getElementById("tid");
+    const style = doc.getElementById("style");
     btn.onclick = () => {
       injectBot(
         pId.value.trim(),
-        loc.value.trim()
+        loc.value.trim(),
+        style.innerText.trim()
       );
       /* Remove the overlay */
       document.getElementById(ifr.id).remove();

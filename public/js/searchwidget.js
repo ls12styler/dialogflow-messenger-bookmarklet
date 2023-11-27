@@ -15,6 +15,11 @@ javascript:(() => {
                 '<label class="w-1/3 pr-2 text-right text-gray-600 font-bold">Location:</label>'+
                 '<input id="loc" class="w-2/3 rounded border p-2 text-gray-600" value="eu" />'+
               '</div>'+
+              '<div class="flex items-center justify-center align-middle">'+
+                '<label class="w-1/3 pr-2 text-right text-gray-600 font-bold">Button Selector:</label>'+
+                '<input id="sel" class="w-2/3 rounded border p-2 text-gray-600" placeholder="#main-container > div > input" />'+
+                '</div>'+
+              '<p>(If none is provided, you can deploy a button and style it using the box below)</p>'+
               '<h2 class="text-xl font-semibold">Search Button Styling</h2>'+
               '<p>You can customise the "Search" button styling using the area below using normal CSS.</p>'+
               '<div class="w-full rounded border p-2 font-mono text-sm text-gray-600">'+
@@ -84,8 +89,7 @@ font-size:20px;</div>`+
     '}'+
   '}';
 
-  const injectBot = (configId, location, buttonStyle) => {
-    console.log({configId, location});
+  const injectBot = (configId, location, selector, buttonStyle) => {
     const widget = document.createElement("gen-search-widget");
     widget.setAttribute("configId", configId);
     if (location) {
@@ -93,14 +97,21 @@ font-size:20px;</div>`+
     }
     widget.setAttribute("triggerId", "searchWidgetTrigger");
 
-    const button = document.createElement("button");
-    button.innerHTML = "Search";
-    button.id = "searchWidgetTrigger";
-    button.style = buttonStyle;
-    [
-      widget,
-      button
-    ].map(e => document.body.appendChild(e));
+    const pageEls = [widget];
+
+    const searchElement = document.querySelector(selector);
+    if (searchElement) {
+      const elId = searchElement.id || false;
+      if (!elId) {searchElement.id = "searchWidgetTrigger"}
+      widget.setAttribute("triggerId", elId);
+    } else {
+      const button = document.createElement("button");
+      button.innerHTML = "Search";
+      button.id = "searchWidgetTrigger";
+      button.style = buttonStyle;
+      pageEls.push(button);
+    }
+    pageEls.map(e => document.body.appendChild(e));
   };
 
   const scriptEl = document.createElement("script");
@@ -119,11 +130,13 @@ font-size:20px;</div>`+
     const btn = doc.getElementById("go");
     const pId = doc.getElementById("cid");
     const loc = doc.getElementById("loc");
+    const sel = doc.getElementById("sel");
     const style = doc.getElementById("style");
     btn.onclick = () => {
       injectBot(
         pId.value.trim(),
         loc.value.trim(),
+        sel.value.trim(),
         style.innerText.trim()
       );
       /* Remove the overlay */
